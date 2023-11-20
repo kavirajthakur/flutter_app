@@ -1,9 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Theme/theme_provider.dart';
+import 'package:flutter_application_1/chatroom.dart';
+import 'package:provider/provider.dart';
 import 'chatmodel.dart';
 
 class ChatScreen extends StatefulWidget {
+  final String name;
+  final String status;
+
+  ChatScreen(this.name,this.status);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -21,7 +28,10 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: Padding(
           padding: EdgeInsets.only(left: 10),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ChatRoom()));
+            },
             child: Icon(
               Icons.arrow_back,
               color: Colors.black.withOpacity(0.6),
@@ -46,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kaviraj Rajput',
+                widget.name,
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.6), fontSize: 16),
               ),
@@ -66,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     width: 3,
                   ),
                   Text(
-                    "Active Now",
+                   widget.status,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
@@ -90,11 +100,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 size: 20,
               )),
           IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.more_vert,
-                size: 20,
-              ))
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            },
+            icon: Icon(
+              Icons.sunny_snowing,
+              color: Colors.grey,
+            ),
+            splashColor: Colors.black,
+          )
         ],
       ),
       body: Column(
@@ -119,13 +133,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       // bool isUserMessage = messages[index]['isSender'] ?? 0 == 1 ? true : false;
                       return ListTile(
                         subtitle: Align(
-                          alignment:  messages[index]['isSender']==1
+                          alignment: messages[index]['isSender'] == 1
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: Container(
                             padding: EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                               color:  Colors.blue,
+                              color: Colors.blue,
                               //     : Colors.grey, // Change the color as needed
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -189,7 +203,7 @@ class _ChatScreenState extends State<ChatScreen> {
       int result = await _databaseHelper.insertMessage({
         'sender': sender,
         'message': message,
-        'isSender': isSender,//bool 
+        'isSender': isSender, //bool
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       });
       log(result.toString());
