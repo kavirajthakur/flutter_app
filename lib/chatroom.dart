@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/chatscreen.dart';
+import 'package:flutter_application_1/provider/nameprovider.dart';
+import 'package:provider/provider.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -76,6 +78,8 @@ class _ChatRoomState extends State<ChatRoom> {
           children: [
             TextButton(
                 onPressed: () {
+                  Provider.of<NameProvider>(context, listen: false)
+                      .setTitle(title);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -83,6 +87,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 },
                 child: Text(
                   title,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

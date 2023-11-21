@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/chatbox.dart';
 import 'package:flutter_application_1/messageModel.dart';
 
-import 'bottomnavigation.dart';
-
 class MessageBox extends StatefulWidget {
   const MessageBox({Key? key});
 
@@ -31,7 +29,7 @@ class _MessageBoxState extends State<MessageBox> {
           ),
         ),
       ),
-      bottomSheet: BottomSendNavigation(),
+     
     );
   }
 }

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Theme/theme_provider.dart';
+import 'package:flutter_application_1/provider/nameprovider.dart';
 import 'package:provider/provider.dart';
-import 'Api/api.dart';
+import 'Api/othertask.dart';
 import 'Home.dart';
-import 'apitaskget.dart';
+import 'chatbox.dart';
+import 'chatroom.dart';
 import 'chatscreen.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
+  runApp(MultiProvider(
+    providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => NameProvider()),
+      ],
+   
+  
     child: const MyApp(),
   ));
 }
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: Api(),
+      home: ChatRoom(),
       // ChatScreen('', ''),
     );
   }

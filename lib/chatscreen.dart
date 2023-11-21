@@ -1,16 +1,16 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Theme/theme_provider.dart';
 import 'package:flutter_application_1/chatroom.dart';
+import 'package:flutter_application_1/provider/nameprovider.dart';
 import 'package:provider/provider.dart';
-import 'chatmodel.dart';
+import 'models/chatmodel.dart';
+import 'namechange.dart';
 
 class ChatScreen extends StatefulWidget {
   final String name;
   final String status;
-
-  ChatScreen(this.name,this.status);
+  ChatScreen(this.name, this.status);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -29,6 +29,8 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: EdgeInsets.only(left: 10),
           child: InkWell(
             onTap: () {
+              Provider.of<NameProvider>(context, listen: false)
+                  .setTitle(widget.name);
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => ChatRoom()));
             },
@@ -52,36 +54,49 @@ class _ChatScreenState extends State<ChatScreen> {
           SizedBox(
             width: 10,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.name,
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.6), fontSize: 16),
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 1),
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                      border: Border.all(width: 2, color: Colors.white),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Provider.of<NameProvider>(context, listen: false)
+                        .setTitle(widget.name);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Namechanges()));
+                  },
+                  child: Text(
+                    Provider.of<NameProvider>(context, listen: false).title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 16,
                     ),
                   ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                   widget.status,
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                ],
-              )
-            ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 1),
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 2, color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      widget.status,
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ]),
         actions: [
